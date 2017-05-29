@@ -26,8 +26,8 @@ database at mysql://root:password@localhost:3306/varsitytutors_development. Also
 you can access mailcatcher at http://localhost:1080.
 
 ## Todo:
-<input type="checkbox" id="todo_server"><label for="todo_server">Run rails server using passenger</label>
-<input type="checkbox" id="todo_ssh"><label for="todo_ssh">Add ssh keys from user to vm</label>
-<input type="checkbox" id="todo_git"><label for="todo_git">Add git to vm, depends on ssh</label>
-<input type="checkbox" id="todo_rubocop"><label for="todo_rubocop">Run rubocop from Atom/Sublime in vm</label>
-<input type="checkbox" id="todo_rake"><label for="todo_rake">Run rake commands easily through vm</label>
+* Run rails server using passenger
+* Add ssh keys from user to vm
+* Add git to vm, depends on ssh
+* Run rubocop from Atom/Sublime in vm
+* Run rake commands easily through vm
