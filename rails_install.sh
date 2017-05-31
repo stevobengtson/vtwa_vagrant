@@ -13,4 +13,5 @@ echo 'gem: --no-document' >> ~/.gemrc
 gem install bundler
 bundle install
 bundle exec rake db:reset
+RAILS_ENV=test bundle exec rake db:reset
 popd
