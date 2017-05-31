@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-apt-get update
 apt-get install -y -q nginx
 
 mkdir -p /etc/nginx/sites-enabled
