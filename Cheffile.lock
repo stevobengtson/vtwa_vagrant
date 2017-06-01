@@ -1,0 +1,21 @@
+SITE
+  remote: https://supermarket.getchef.com/api/v1
+  specs:
+    apt (6.1.0)
+    build-essential (8.0.3)
+      mingw (>= 1.1)
+      seven_zip (>= 0.0.0)
+    mingw (2.0.1)
+      seven_zip (>= 0.0.0)
+    mysql (8.4.0)
+    ohai (5.1.0)
+    seven_zip (2.0.2)
+      windows (>= 1.2.2)
+    windows (3.1.0)
+      ohai (>= 4.0.0)
+
+DEPENDENCIES
+  apt (>= 0)
+  build-essential (>= 0)
+  mysql (~> 8.4.0)
+

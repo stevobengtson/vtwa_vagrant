@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+#^syntax detection
+
+site 'https://supermarket.getchef.com/api/v1'
+
+cookbook 'apt'
+cookbook 'build-essential'
+cookbook 'mysql', '~> 8.4.0'

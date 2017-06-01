@@ -1,12 +1,13 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+# rubocop:disable Metrics/LineLength
 
 # Requirements:
 # vagrant-dns: https://github.com/BerlinVagrant/vagrant-dns
 require File.dirname(__FILE__) + '/dependency_manager'
 check_plugins ['vagrant-dns', 'vagrant-disksize']
 
-Vagrant.configure('2') do |config|
+Vagrant.configure('2') do |config| # rubocop:disable Metrics/BlockLength
   config.vm.box = 'bento/ubuntu-16.04'
   config.vm.box_version = '2.3.1'
 
@@ -16,22 +17,38 @@ Vagrant.configure('2') do |config|
   config.vm.hostname = 'vtwa'
   config.dns.patterns = [/^.*varsitytutors.dev$/]
 
-  config.vm.synced_folder '../varsitytutors', '/vagrant', type: 'nfs', mount_options: ['rw', 'vers=3', 'tcp', 'fsc']  # the fsc is for cachedfilesd
+  config.vm.synced_folder '../varsitytutors', '/vagrant', type: 'nfs', mount_options: ['rw', 'vers=3', 'tcp', 'fsc'] # the fsc is for cachedfilesd
   config.vm.synced_folder '.', '/opt/build'
 
   config.vm.network :private_network, ip: '10.10.10.99'
 
   config.vm.network :forwarded_port, guest: 3306, host: 3306
-  config.vm.network :forwarded_port, guest: 80, host: 8080
-  config.vm.network :forwarded_port, guest: 443, host: 8443
-  config.vm.network :forwarded_port, guest: 1080, host: 1080
+  # config.vm.network :forwarded_port, guest: 80, host: 8080
+  # config.vm.network :forwarded_port, guest: 443, host: 8443
+  # config.vm.network :forwarded_port, guest: 1080, host: 1080
+  #
+  # config.vm.provision :shell, path: 'common.sh'
+  # config.vm.provision :shell, path: 'mysql_install.sh'
+  # config.vm.provision :shell, path: 'redis_install.sh'
+  # config.vm.provision :shell, path: 'mailcatcher_install.sh'
+  # config.vm.provision :shell, path: 'nginx_install.sh'
+  # config.vm.provision :shell, path: 'rails_install.sh', privileged: false
 
-  config.vm.provision :shell, path: 'common.sh'
-  config.vm.provision :shell, path: 'mysql_install.sh'
-  config.vm.provision :shell, path: 'redis_install.sh'
-  config.vm.provision :shell, path: 'mailcatcher_install.sh'
-  config.vm.provision :shell, path: 'nginx_install.sh'
-  config.vm.provision :shell, path: 'rails_install.sh', privileged: false
+  config.vm.provision :chef_solo do |chef|
+    chef.cookbooks_path = %w[cookbooks server_cookbooks]
+
+    chef.add_recipe 'apt'
+    chef.add_recipe 'build-essential'
+    chef.add_recipe 'mysql_config'
+
+    chef.json = {
+      mysql_config: {
+        root_password: 'password',
+        bind_address: '0.0.0.0',
+        version: '5.7'
+      }
+    }
+  end
 
   config.vm.provider 'virtualbox' do |vb|
     vb.name = 'VTWA'

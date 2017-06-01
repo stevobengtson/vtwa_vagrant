@@ -8,7 +8,7 @@
 
 ```
 $ pwd
-/Users/steven/projects
+/Users/[username]/projects
 
 $ ls
 varsitytutors
