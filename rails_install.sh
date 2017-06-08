@@ -10,8 +10,14 @@ rvm use ruby-2.3.1
 rvm gemset create varsitytutors
 pushd /vagrant
 echo 'gem: --no-document' >> ~/.gemrc
+
+mkdir -p ~/bin
+cp /opt/build/server.sh ~/bin/server.sh
+chmod +x ~/bin/server.sh
+
 gem install bundler
 bundle install
 bundle exec rake db:reset
 RAILS_ENV=test bundle exec rake db:reset
+
 popd
