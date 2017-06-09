@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 apt-get update -y -q
-apt-get install -y -q imagemagick jpegoptim cachefilesd git vim curl python-software-properties libcurl4-openssl-dev
+apt-get install -y -q imagemagick jpegoptim cachefilesd git vim curl python-software-properties libcurl4-openssl-dev libmysqlclient-dev
 
 # Setup nodejs
 pushd /tmp
