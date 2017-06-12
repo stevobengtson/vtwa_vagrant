@@ -4,20 +4,20 @@
 # Requirements:
 # vagrant-dns: https://github.com/BerlinVagrant/vagrant-dns
 require File.dirname(__FILE__) + '/dependency_manager'
-check_plugins ['vagrant-dns']
+check_plugins ['vagrant-dns', 'vagrant-triggers']
 
 Vagrant.configure('2') do |config|
   config.vm.define 'mysql' do |db|
     db.vm.box = 'stevobengtson/vt-mysql-5.6'
     db.vm.hostname = 'vt-mysql'
 
-    db.vm.network :private_network, ip: '10.10.11.3'
-    db.vm.network :forwarded_port, guest: 3306, host: 3306
-    db.vm.network :forwarded_port, guest: 22, host: 10122, id: "ssh"
-
     db.dns.tld = 'vt-mysql.dev'
     db.vm.hostname = 'vt-mysql'
     db.dns.patterns = [/^.*vt-mysql.dev$/]
+
+    db.vm.network :private_network, ip: '10.10.11.3'
+    db.vm.network :forwarded_port, guest: 3306, host: 3306
+    db.vm.network :forwarded_port, guest: 22, host: 10122, id: "ssh"
 
     db.vm.provider 'virtualbox' do |vb|
       vb.name = 'vt-mysql'
@@ -31,13 +31,13 @@ Vagrant.configure('2') do |config|
     mail.vm.box = 'stevobengtson/mailcatcher'
     mail.vm.hostname = 'vt-mailcatcher'
 
-    mail.vm.network :private_network, ip: '10.10.11.4'
-    mail.vm.network :forwarded_port, guest: 1080, host: 1080
-    mail.vm.network :forwarded_port, guest: 22, host: 10222, id: "ssh"
-
     mail.dns.tld = 'mailcatcher.dev'
     mail.vm.hostname = 'mailcatcher'
     mail.dns.patterns = [/^.*mailcatcher.dev$/]
+
+    mail.vm.network :private_network, ip: '10.10.11.4'
+    mail.vm.network :forwarded_port, guest: 1080, host: 1080
+    mail.vm.network :forwarded_port, guest: 22, host: 10222, id: "ssh"
 
     mail.vm.provider 'virtualbox' do |vb|
       vb.name = 'mailcatcher'
@@ -75,6 +75,15 @@ Vagrant.configure('2') do |config|
       vb.memory = 3072
       vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
       vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
+    end
+
+    config.trigger.before :provision do
+      run 'vagrant dns --install'
+      run 'vagrant dns --start'
+    end
+
+    config.trigger.after :destroy do
+      run 'vagrant dns --uninstall'
     end
   end
 end
