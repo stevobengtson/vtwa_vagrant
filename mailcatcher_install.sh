@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt-get install -y -q build-essential libsqlite3-dev ruby-dev
+apt-get install -y -q build-essential libsqlite3-dev ruby-dev curl
 
 gem install --no-ri --no-rdoc mailcatcher
 

@@ -11,9 +11,10 @@ rvm gemset create varsitytutors
 pushd /vagrant
 echo 'gem: --no-document' >> ~/.gemrc
 
-mkdir -p ~/bin
-cp /opt/build/server.sh ~/bin/server.sh
-chmod +x ~/bin/server.sh
+sed -i '/^export MAILCATCHER_ADDRESS=.*$/d' ~/.profile
+echo 'export MAILCATCHER_ADDRESS=10.10.11.4' >> ~/.profile
+
+export MAILCATCHER_ADDRESS=10.10.11.4
 
 gem install bundler
 bundle install
