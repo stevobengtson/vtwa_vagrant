@@ -65,6 +65,8 @@ Vagrant.configure('2') do |config|
     rails.vm.network :forwarded_port, guest: 80, host: 8080
     rails.vm.network :forwarded_port, guest: 443, host: 8443
 
+    rails.ssh.forward_agent = true
+
     rails.vm.provision :shell, path: 'common.sh'
     rails.vm.provision :shell, path: 'redis_install.sh'
     rails.vm.provision :shell, path: 'nginx_install.sh'

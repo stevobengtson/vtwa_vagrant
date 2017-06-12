@@ -13,9 +13,18 @@ echo 'gem: --no-document' >> ~/.gemrc
 
 sed -i '/^export MAILCATCHER_ADDRESS=.*$/d' ~/.profile
 echo 'export MAILCATCHER_ADDRESS=10.10.11.4' >> ~/.profile
+sed -i '/^export RAILS_ENV=.*$/d' ~/.profile
+echo 'export RAILS_ENV=development' >> ~/.profile
 
 export MAILCATCHER_ADDRESS=10.10.11.4
+export RAILS_ENV=development
 
+# Setup Puma
+mkdir -p /vagrant/shared
+mkdir -p shared/pids shared/sockets shared/log
+ln -s /opt/build/nginx/puma.rb /vagrant/config/puma.rb
+
+# Setup gems and database
 gem install bundler
 bundle install
 bundle exec rake db:reset
