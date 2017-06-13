@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
     rails.vm.synced_folder '../vt_sales_mentor', '/vt_sales_mentor', type: 'nfs', mount_options: ['rw', 'vers=3', 'tcp', 'fsc']  # the fsc is for cachedfilesd
     rails.vm.synced_folder '.', '/opt/build'
 
-    rails.vm.network :private_network, ip: '10.10.10.99'
+    rails.vm.network :private_network, ip: '10.10.10.18'
     rails.vm.network :private_network, ip: '10.10.11.2'
     rails.vm.network :forwarded_port, guest: 22, host: 10322, id: "ssh"
     rails.vm.network :forwarded_port, guest: 80, host: 8080
@@ -79,7 +79,7 @@ Vagrant.configure('2') do |config|
       vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
     end
 
-    config.trigger.before :provision do
+    config.trigger.after :up do
       run 'vagrant dns --install'
       run 'vagrant dns --start'
     end

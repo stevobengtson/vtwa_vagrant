@@ -9,10 +9,6 @@
 # apt-get install -y nginx-extras passenger
 # sed -i 's/# include \/etc\/nginx\/passenger.conf;/include \/etc\/nginx\/passenger.conf;/' /etc/nginx/nginx.conf
 
-# Setup Puma
-cp /opt/build/nginx/puma.service /etc/systemd/system/puma.service
-service puma restart
-
 # Setup Nginx
 apt-get install -y -q nginx
 

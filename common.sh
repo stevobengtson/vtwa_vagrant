@@ -12,6 +12,13 @@ apt-get install -y -q nodejs
 echo "RUN=yes" > /etc/default/cachefilesd
 popd
 
+# Setup Puma folders
+mkdir -p /puma/shared
+mkdir -p /puma/shared/pids /puma/shared/sockets /puma/shared/log
+chown -R vagrant:vagrant /puma
+ln -s /opt/build/nginx/puma.rb /puma/puma.rb
+
+
 # To help speed up git
 pushd /vagrant
 git config core.preloadindex true
